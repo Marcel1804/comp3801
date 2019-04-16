@@ -101,9 +101,9 @@ void loop()
 		Serial.print("velocity[Front]: ");
 		Serial.print(velc);
 		Serial.println(" m/s");
-	}
-	if (distance < 1 && velc > 0.5) {
-		tone(FpinBuzzer, 1000, 100);
+		if (distance < 1 && velc > 0.5) {
+			tone(FpinBuzzer, 1000, 100);
+		}
 	}
 
 	//left  board
@@ -125,9 +125,9 @@ void loop()
 		Serial.print("velocity[Left]: ");
 		Serial.print(velc);
 		Serial.println(" m/s");
-	}
-	if (distance < 1 && velc > 0.5) {
-		tone(FpinBuzzer, 2000, 100);
+		if (distance < 1 && velc > 0.5) {
+			tone(FpinBuzzer, 2000, 100);
+		}
 	}
 
 	//rigth board
@@ -149,9 +149,9 @@ void loop()
 		Serial.print("velocity[Right]: ");
 		Serial.print(velc);
 		Serial.println(" m/s");
-	}
-	if (distance < 1 && velc > 0.5) {
-		tone(FpinBuzzer, 3000, 100);
+		if (distance < 1 && velc > 0.5) {
+			tone(FpinBuzzer, 3000, 100);
+		}
 	}
 
 	//back board
@@ -173,9 +173,9 @@ void loop()
 		Serial.print("velocity[Back]: ");
 		Serial.print(velc);
 		Serial.println(" m/s");
-	}
-	if (distance < 1 && velc > 0.5) {
-		tone(FpinBuzzer, 4000, 100);
+		if (distance < 1 && velc > 0.5) {
+			tone(FpinBuzzer, 4000, 100);
+		}
 	}
 
 	delay(50);
