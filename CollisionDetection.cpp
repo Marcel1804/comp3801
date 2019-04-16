@@ -15,6 +15,8 @@
 unsigned long prevTime[4] = { 0 };
 // previous speeds
 float prevDistance[4] = { 0.0f };
+// jump filter
+bool prevSignal[4] = { false };
 
 // front section
 int FpinRL = 4;
@@ -74,10 +76,11 @@ void setup()
 
 void loop()
 {
-	float distance = 0.0f;
+	double distance = 0.0f;
 	float _time = 0.0f;
 	float velc = 0.0f;
 	unsigned long curTime = 0;
+	bool s = false;
 
 	// clear pin signals
 	ResetAllPins();
@@ -95,18 +98,31 @@ void loop()
 		velc = (prevDistance[FRONT_SECTION] - distance) / _time;
 		prevDistance[FRONT_SECTION] = distance;
 		prevTime[FRONT_SECTION] = curTime;
-		Serial.print("distance[Front]: ");
+		/*Serial.print("distance[Front]: ");
 		Serial.print(distance);
 		Serial.println(" meters");
 		Serial.print("velocity[Front]: ");
 		Serial.print(velc);
-		Serial.println(" m/s");
-		if (distance < 1 && velc > 0.5) {
-			tone(FpinBuzzer, 1000, 100);
+		Serial.println(" m/s");*/
+		if (distance <= 0.5 && velc >= 0.2) {
+			s = true;
+			if (s and prevSignal[FRONT_SECTION]) {
+				tone(BUZZER_PIN, 500, 200);
+			}
+			//Serial.println("back CONTINUEOUS side trigger");
 		}
+		else if (distance < 1 && velc > 0.2) {
+			s = true;
+			if (s and prevSignal[FRONT_SECTION]) {
+				tone(BUZZER_PIN, 500, 50);
+			}
+			//Serial.println("back side trigger");
+		}
+		prevSignal[FRONT_SECTION] = s;
 	}
 
 	//left  board
+	s = false;
 	distance = ReadSensor(LpinUStri, LpinUSecho);
 	if (distance < 0) {
 		digitalWrite(LpinGL, LOW);
@@ -119,18 +135,31 @@ void loop()
 		velc = (prevDistance[LEFT_SECTION] - distance) / _time;
 		prevDistance[LEFT_SECTION] = distance;
 		prevTime[LEFT_SECTION] = curTime;
-		Serial.print("distance[Left]: ");
+		/*Serial.print("distance[Left]: ");
 		Serial.print(distance);
 		Serial.println(" meters");
 		Serial.print("velocity[Left]: ");
 		Serial.print(velc);
-		Serial.println(" m/s");
-		if (distance < 1 && velc > 0.5) {
-			tone(FpinBuzzer, 2000, 100);
+		Serial.println(" m/s");*/
+		if (distance <= 0.5 && velc >= 0.2) {
+			s = true;
+			if (s and prevSignal[LEFT_SECTION]) {
+				tone(BUZZER_PIN, 900, 200);
+			}
+			//Serial.println("back CONTINUEOUS side trigger");
 		}
+		else if (distance < 1 && velc > 0.2) {
+			s = true;
+			if (s and prevSignal[LEFT_SECTION]) {
+				tone(BUZZER_PIN, 900, 50);
+			}
+			//Serial.println("back side trigger");
+		}
+		prevSignal[LEFT_SECTION] = s;
 	}
 
 	//rigth board
+	s = false;
 	distance = ReadSensor(RpinUStri, RpinUSecho);
 	if (distance < 0) {
 		digitalWrite(RpinGL, LOW);
@@ -139,22 +168,35 @@ void loop()
 	}
 	else {
 		curTime = millis();
-		_time = (float)(curTime - prevTime[LEFT_SECTION]) / 1000;
-		velc = (prevDistance[LEFT_SECTION] - distance) / _time;
-		prevDistance[LEFT_SECTION] = distance;
-		prevTime[LEFT_SECTION] = curTime;
-		Serial.print("distance[Right]: ");
+		_time = (float)(curTime - prevTime[RIGHT_SECTION]) / 1000;
+		velc = (prevDistance[RIGHT_SECTION] - distance) / _time;
+		prevDistance[RIGHT_SECTION] = distance;
+		prevTime[RIGHT_SECTION] = curTime;
+		/*Serial.print("distance[Right]: ");
 		Serial.print(distance);
 		Serial.println(" meters");
 		Serial.print("velocity[Right]: ");
 		Serial.print(velc);
-		Serial.println(" m/s");
-		if (distance < 1 && velc > 0.5) {
-			tone(FpinBuzzer, 3000, 100);
+		Serial.println(" m/s");*/
+		if (distance <= 0.5 && velc >= 0.2) {
+			s = true;
+			if (s and prevSignal[RIGHT_SECTION]) {
+				tone(BUZZER_PIN, 1500, 200);
+			}
+			//Serial.println("back CONTINUEOUS side trigger");
 		}
+		else if (distance < 1 && velc > 0.2) {
+			s = true;
+			if (s and prevSignal[RIGHT_SECTION]) {
+				tone(BUZZER_PIN, 1500, 50);
+			}
+			//Serial.println("back side trigger");
+		}
+		prevSignal[RIGHT_SECTION] = s;
 	}
 
 	//back board
+	s = false;
 	distance = ReadSensor(BpinUStri, BpinUSecho);
 	if (distance < 0) {
 		digitalWrite(BpinGL, LOW);
@@ -163,19 +205,31 @@ void loop()
 	}
 	else {
 		curTime = millis();
-		_time = (float)(curTime - prevTime[LEFT_SECTION]) / 1000;
-		velc = (prevDistance[LEFT_SECTION] - distance) / _time;
-		prevDistance[LEFT_SECTION] = distance;
-		prevTime[LEFT_SECTION] = curTime;
-		Serial.print("distance[Back]: ");
+		_time = (float)(curTime - prevTime[BACK_SECTION]) / 1000;
+		velc = (prevDistance[BACK_SECTION] - distance) / _time;
+		prevDistance[BACK_SECTION] = distance;
+		prevTime[BACK_SECTION] = curTime;
+		/*Serial.print("distance[Back]: ");
 		Serial.print(distance);
 		Serial.println(" meters");
 		Serial.print("velocity[Back]: ");
 		Serial.print(velc);
-		Serial.println(" m/s");
-		if (distance < 1 && velc > 0.5) {
-			tone(FpinBuzzer, 4000, 100);
+		Serial.println(" m/s");*/
+		if (distance <= 0.5 && velc >= 0.2) {
+			s = true;
+			if (s and prevSignal[BACK_SECTION]) {
+				tone(BUZZER_PIN, 3500, 200);
+			}
+			//Serial.println("back CONTINUEOUS side trigger");
 		}
+		else if (distance < 1 && velc > 0.2) {
+			s = true;
+			if (s and prevSignal[BACK_SECTION]) {
+				tone(BUZZER_PIN, 3500, 50);
+			}
+			//Serial.println("back side trigger");
+		}
+		prevSignal[BACK_SECTION] = s;
 	}
 
 	delay(50);
@@ -207,13 +261,13 @@ void ResetAllPins(void)
 	analogWrite(BpinRL, LOW);
 
 	// buzzer
-	digitalWrite(BUZZER_PIN, LOW);
+	//digitalWrite(BUZZER_PIN, LOW);
 }
 
 // returns the distance read from the sensor in meters.
-float ReadSensor(int sensorTrig, int sensorEcho)
+double ReadSensor(int sensorTrig, int sensorEcho)
 {
-	float result = 0.0f;
+	double result = 0.0f;
 	digitalWrite(sensorTrig, LOW);
 	delayMicroseconds(2);
 	digitalWrite(sensorTrig, HIGH);
