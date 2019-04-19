@@ -125,8 +125,8 @@ void loop()
 	s = false;
 	distance = ReadSensor(LpinUStri, LpinUSecho);
 	if (distance < 0) {
-		digitalWrite(LpinGL, LOW);
-		digitalWrite(LpinRL, HIGH);
+		analogWrite(LpinGL, LOW);
+		analogWrite(LpinRL, HIGH);
 		Serial.println("Left section has echo.");
 	}
 	else {
@@ -162,8 +162,8 @@ void loop()
 	s = false;
 	distance = ReadSensor(RpinUStri, RpinUSecho);
 	if (distance < 0) {
-		digitalWrite(RpinGL, LOW);
-		digitalWrite(RpinRL, HIGH);
+		analogWrite(RpinGL, LOW);
+		analogWrite(RpinRL, HIGH);
 		Serial.println("Right section has echo.");
 	}
 	else {
@@ -199,8 +199,8 @@ void loop()
 	s = false;
 	distance = ReadSensor(BpinUStri, BpinUSecho);
 	if (distance < 0) {
-		digitalWrite(BpinGL, LOW);
-		digitalWrite(BpinRL, HIGH);
+		analogWrite(BpinGL, LOW);
+		analogWrite(BpinRL, HIGH);
 		Serial.println("Back section has echo.");
 	}
 	else {
